@@ -1,0 +1,252 @@
+<SystemConfig>
+    <SimulationConfig>
+        <!--SimulatedOrderExpectedExecutionTime: current, next-->
+        <SimulatedOrderExpectedExecutionTime>next</SimulatedOrderExpectedExecutionTime>
+        <!--StockOrderType: close/adjClose/open/market/limit-->
+        <StockOrderType>open</StockOrderType>
+        <OptionOrderType>market</OptionOrderType>
+        <CloseAllPositionEndSimulation>true</CloseAllPositionEndSimulation>
+        <BackTestingPeroid start="1/1/2012" end="6/30/2012"></BackTestingPeroid>
+         <UserOutputPath>/usr/backtest/CN</UserOutputPath>-->
+        <DataPath>/root/data/output/outputUS5</DataPath>
+        <UserOutputPath>/Users/testuser/output</UserOutputPath>
+        <debug></debug>
+    </SimulationConfig>
+    <RiskConfig>
+        <InitialCash>1000000</InitialCash>
+        <PositionSizeLimit>10</PositionSizeLimit>
+        <LongExposureMax>70</LongExposureMax>
+        <ShortExposureMax>0</ShortExposureMax>
+        <DeltaDollarLimit>3000000</DeltaDollarLimit>
+        <VegaLimit>1000000</VegaLimit>
+        <ThetaLimit>1000000</ThetaLimit>
+
+        <!-- 0 means no limit, x where x>100 means the limit is X% of the initial position size limit.-->
+        <!-- AcceptExceciseAssignment;ClosePositionOnExpFriday-->
+        <OptionExpirationPolicy>AcceptExceciseAssignment</OptionExpirationPolicy>
+    </RiskConfig>
+    <Markets>
+        <Market value="US">
+            <LoadStrikeRatio>100</LoadStrikeRatio>
+            <UnderlyingRatio>10000</UnderlyingRatio>
+            <IntRatio>10000</IntRatio>
+            <OpenTime>160000</OpenTime>
+            <CloseTime>160000</CloseTime>
+        </Market>
+        <Market value="CN">
+            <LoadStrikeRatio>1000</LoadStrikeRatio>
+            <UnderlyingRatio>1000000</UnderlyingRatio>
+            <IntRatio>1000000</IntRatio>
+            <OpenTime>93100</OpenTime>
+            <CloseTime>150000</CloseTime>
+        </Market>
+    </Markets>
+    <CommissionConfig>
+        <StockPerShare>0.0006</StockPerShare>
+        <StockPerTrade>0</StockPerTrade>
+        <stockTransactionFeeRate>0</stockTransactionFeeRate>
+        <OptionPerContract>1.7</OptionPerContract>
+        <OptionPerTrade>0</OptionPerTrade>
+        <OptionExercisePerTrade>0</OptionExercisePerTrade>
+        <OptionExercisePerContract>0.6</OptionExercisePerContract>
+        <OptionAssignmentPerTrade>0</OptionAssignmentPerTrade>
+        <OptionAssignmentPerContract>0</OptionAssignmentPerContract>
+        <ExerciseMargin>3</ExerciseMargin>
+        <ContractMultiplier>10000</ContractMultiplier>
+    </CommissionConfig>
+    <SoftwareConfig>
+        <Port>50051</Port>
+        <LoadDaysOnce>-1</LoadDaysOnce>
+        <BlockSize>1</BlockSize>
+        <PreLoads>
+            <Years>2015</Years>
+            <Symbols>All</Symbols>
+        </PreLoads>
+        <!--<UnderlyingModelBlock>UnderlyingModelMatrix</UnderlyingModelBlock>UnderlyingModelMap-->
+        <!--<BrokerLocation>http://localhost:8888</BrokerLocation>
+        <BrokerType>QBrokerNetPipeClient</BrokerType>
+        <RetryCount>5</RetryCount>
+        <RetryWaitTime>300</RetryWaitTime>-->
+        <!--25: next 1AM, 16: current 16pm-->
+        <!--<RetryCloseTime>0</RetryCloseTime>-->
+    </SoftwareConfig>
+    <TagFrameworkConfig>
+        <StatData>false</StatData>
+        <DataPath>/root/data/output/outputUS5</DataPath>
+        <!--        <symbols>*</symbols>-->
+        <DataPackages>
+              <DataPackage>
+                  <type>load</type>
+                  <symbol>QQQ</symbol>
+                  <default>true</default>
+                  <tagName>_PVT.D.BAR</tagName>
+                  <path>_PVT.D.BAR</path>
+                  <class>TagFramework.Utils.DeSerializeUtil</class>
+                  <method>DeSerializeBarFromZip</method>
+              </DataPackage>
+
+
+
+              <DataPackage>
+                  <type>load</type>
+                  <symbol>QQQ</symbol>
+                  <default>true</default>
+                  <tagName>*_PVT.D.OC</tagName>
+                  <default>true</default>
+                  <path>_PVT.D.OC</path>
+                  <class>TagFramework.Utils.DeSerializeUtil</class>
+                  <method>DeSerializeBlocksDataFromZip</method>
+              </DataPackage>
+
+
+              <DataPackage>
+                  <type>load</type>
+                  <symbol>QQQ</symbol>
+                  <default>true</default>
+                  <tagName>*.Mid_PVT.D.OG</tagName>
+                  <path>.Mid_PVT.D.OG</path>
+                  <class>TagFramework.Utils.DeSerializeUtil</class>
+                  <method>DeSerializeBlocksDataFromZip</method>
+              </DataPackage>
+
+            <DataPackage>
+                <type>load</type>
+                <symbol>QQQ</symbol>
+                <default>true</default>
+                <tagName>VIX_PVT.D</tagName>
+                <path>VIX_PVT.D</path>
+                <class>TagFramework.Utils.DeSerializeUtil</class>
+                <method>DeSerializeIntFromZip</method>
+            </DataPackage>
+
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>*</symbol>-->
+<!--                <default>true</default>-->
+<!--                <tagName>TotalVega_PVT.D</tagName>-->
+<!--                <path>TotalVega_PVT.D</path>-->
+<!--                <class>TagFramework.Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeIntFromZip</method>-->
+<!--            </DataPackage>-->
+
+            <DataPackage>
+                <type>load</type>
+                <symbol>QQQ</symbol>
+                <default>true</default>
+                <tagName>Maxpain_PVT.D</tagName>
+                <path>Maxpain_PVT.D</path>
+                <class>TagFramework.Utils.DeSerializeUtil</class>
+                <method>DeSerializeIntFromZip</method>
+            </DataPackage>
+
+
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>true</default>-->
+<!--                <tagName>_PVT.M.BAR</tagName>-->
+<!--                <path>_PVT.M.BAR</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeBarFromZip</method>-->
+<!--            </DataPackage>-->
+
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>true</default>-->
+<!--                <tagName>*_PVT.M.OC</tagName>-->
+<!--                <default>true</default>-->
+<!--                <path>_PVT.M.OC</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeBlocksDataFromZip</method>-->
+<!--            </DataPackage>-->
+
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>false</default>-->
+<!--                <tagName>RFR_PVT.M</tagName>-->
+<!--                <path>RFR_PVT.M</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeIntFromZip</method>-->
+<!--            </DataPackage>-->
+
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>true</default>-->
+<!--                <tagName>*.PCP_PVT.M.OG</tagName>-->
+<!--                <path>.PCP_PVT.M.OG</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeBlocksDataFromZip</method>-->
+<!--            </DataPackage>-->
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>true</default>-->
+<!--                <tagName>RFR1_PVT.M</tagName>-->
+<!--                <path>RFR1_PVT.M</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeIntFromZip</method>-->
+<!--            </DataPackage>-->
+
+
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>false</default>-->
+<!--                <tagName>IVIXA_PVT.M</tagName>-->
+<!--                <path>IVIXA_PVT.M</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeIntFromZip</method>-->
+<!--            </DataPackage>-->
+
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>false</default>-->
+<!--                <tagName>IVIX_PVT.M</tagName>-->
+<!--                <path>IVIX_PVT.M</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeIntFromZip</method>-->
+<!--            </DataPackage>-->
+
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>true</default>-->
+<!--                <tagName>IVIXS_PVT.M</tagName>-->
+<!--                <path>IVIXS_PVT.M</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeIntFromZip</method>-->
+<!--            </DataPackage>-->
+
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>false</default>-->
+<!--                <tagName>PCPIU_PVT.M</tagName>-->
+<!--                <path>PCPIU_PVT.M</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeIntFromZip</method>-->
+<!--            </DataPackage>-->
+<!--            <DataPackage>-->
+<!--                <type>load</type>-->
+<!--                <symbol>510050</symbol>-->
+<!--                <default>true</default>-->
+<!--                <tagName>Maxpain_PVT.M</tagName>-->
+<!--                <path>Maxpain_PVT.M</path>-->
+<!--                <class>Utils.DeSerializeUtil</class>-->
+<!--                <method>DeSerializeIntFromZip</method>-->
+<!--            </DataPackage>-->
+
+
+
+                              -->
+
+        </DataPackages>
+
+    </TagFrameworkConfig>
+</SystemConfig>
+
+

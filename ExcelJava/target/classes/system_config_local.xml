@@ -1,0 +1,70 @@
+<SystemConfig>
+    <SimulationConfig>
+        <SimulatedOrderExpectedExecutionTime>next</SimulatedOrderExpectedExecutionTime>
+        <StockOrderType>open</StockOrderType>
+        <OptionOrderType>market</OptionOrderType>
+        <CloseAllPositionEndSimulation>true</CloseAllPositionEndSimulation>
+        <BackTestingPeroid start="1/1/2020" end="12/31/2023"></BackTestingPeroid>
+        <!-- 使用本地测试数据路径 -->
+        <DataPath>./testdata</DataPath>
+        <UserOutputPath>./output</UserOutputPath>
+        <debug></debug>
+    </SimulationConfig>
+    
+    <RiskConfig>
+        <InitialCash>1000000</InitialCash>
+        <PositionSizeLimit>10</PositionSizeLimit>
+        <LongExposureMax>70</LongExposureMax>
+        <ShortExposureMax>0</ShortExposureMax>
+        <DeltaDollarLimit>3000000</DeltaDollarLimit>
+        <VegaLimit>1000000</VegaLimit>
+        <ThetaLimit>1000000</ThetaLimit>
+        <OptionExpirationPolicy>AcceptExceciseAssignment</OptionExpirationPolicy>
+    </RiskConfig>
+    
+    <Markets>
+        <Market value="US">
+            <LoadStrikeRatio>100</LoadStrikeRatio>
+            <UnderlyingRatio>10000</UnderlyingRatio>
+            <IntRatio>10000</IntRatio>
+            <OpenTime>160000</OpenTime>
+            <CloseTime>160000</CloseTime>
+        </Market>
+    </Markets>
+    
+    <CommissionConfig>
+        <StockPerShare>0.0006</StockPerShare>
+        <StockPerTrade>0</StockPerTrade>
+        <stockTransactionFeeRate>0</stockTransactionFeeRate>
+        <OptionPerContract>1.7</OptionPerContract>
+        <OptionPerTrade>0</OptionPerTrade>
+        <AssignmentFee>10</AssignmentFee>
+    </CommissionConfig>
+    
+    <SoftwareConfig>
+        <ShutdownTime>1430</ShutdownTime>
+        <NotificationEmail>notification@qsystem.com</NotificationEmail>
+        <NotificationEmailPassword>password</NotificationEmailPassword>
+        <EmailTo>user@example.com</EmailTo>
+        <TaskType>RegTest</TaskType>
+        <DefaultMarket>US</DefaultMarket>
+    </SoftwareConfig>
+    
+    <TagFrameworkConfig>
+        <StatData>false</StatData>
+        <!-- 本地测试数据路径 -->
+        <DataPath>./testdata</DataPath>
+        <DataPackages>
+            <!-- 示例配置，实际使用时根据需要调整 -->
+            <DataPackage>
+                <type>load</type>
+                <symbol>SPY</symbol>
+                <default>true</default>
+                <tagName>_PVT.D.BAR</tagName>
+                <path>_PVT.D.BAR</path>
+                <class>TagFramework.Utils.DeSerializeUtil</class>
+                <method>DeSerializeBarFromZip</method>
+            </DataPackage>
+        </DataPackages>
+    </TagFrameworkConfig>
+</SystemConfig>
