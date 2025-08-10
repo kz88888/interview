@@ -90,7 +90,7 @@ public class ExcelExporterBalances {
             LocalDate dateOnly = time1.toLocalDate();
             String nTimeStr = time1.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             valueArray[rowIndex][colIndex++] = dateOnly.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));                
-            valueArray[rowIndex][colIndex++] = String.valueOf(balance.getValue());
+            valueArray[rowIndex][colIndex++] = balance.getValue();
             
             // Find benchmark value with matching date
             Optional<Map.Entry<LocalDateTime, Double>> matchingBenchmark = benchmarkValues.entrySet().stream()
@@ -98,10 +98,10 @@ public class ExcelExporterBalances {
                     .findFirst();
             
             if (matchingBenchmark.isPresent()) {
-                valueArray[rowIndex][colIndex++] = String.valueOf(matchingBenchmark.get().getValue() * factor);
+                valueArray[rowIndex][colIndex++] = matchingBenchmark.get().getValue() * factor;
                 last_benchmark = matchingBenchmark.get().getValue() * factor;
             } else {
-                valueArray[rowIndex][colIndex++] = String.valueOf(last_benchmark);
+                valueArray[rowIndex][colIndex++] = last_benchmark;
             }
 
             // 这里需要根据实际的QPortfolioBase结构来调整
@@ -211,7 +211,7 @@ public class ExcelExporterBalances {
                 
                 LocalDate date = balance.getKey().toLocalDate();
                 valueArray[rowIndex][colIndex++] = date.toString();
-                valueArray[rowIndex][colIndex++] = String.valueOf(balanceFactor * balance.getValue());
+                valueArray[rowIndex][colIndex++] = balanceFactor * balance.getValue();
                 
                 // 查找benchmark值
                 LocalDateTime benchmarkKey = null;
@@ -223,10 +223,10 @@ public class ExcelExporterBalances {
                 }
                 
                 if (benchmarkKey != null) {
-                    valueArray[rowIndex][colIndex++] = String.valueOf(benchmarkValues.get(benchmarkKey) * factor);
+                    valueArray[rowIndex][colIndex++] = benchmarkValues.get(benchmarkKey) * factor;
                     last_benchmark = benchmarkValues.get(benchmarkKey) * factor;
                 } else {
-                    valueArray[rowIndex][colIndex++] = String.valueOf(last_benchmark);
+                    valueArray[rowIndex][colIndex++] = last_benchmark;
                 }
             }
             
@@ -264,7 +264,7 @@ public class ExcelExporterBalances {
         if (strategyReturn > 10) {
             isLogScale = true;
         }
-        excel.CreateLineChart(isLogScale, initCapital, dataSheetName, chartSheetName, startColIndex, endColIndex, left, top, 2, titleName, "Date", "Balance", "Benchmark Value", 400, 250);
+        excel.CreateLineChart(isLogScale, initCapital, dataSheetName, chartSheetName, startColIndex, endColIndex, left, top, 2, titleName, "Date", "Balance", "Benchmark Value", 450, 300);
     }
 
     // 期间收益导出

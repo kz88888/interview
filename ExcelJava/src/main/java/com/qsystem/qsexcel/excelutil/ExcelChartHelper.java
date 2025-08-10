@@ -75,7 +75,7 @@ public class ExcelChartHelper {
             
             // 创建图例
             XDDFChartLegend legend = chart.getOrAddLegend();
-            legend.setPosition(LegendPosition.BOTTOM);
+            legend.setPosition(LegendPosition.RIGHT);
             
             // 创建分类轴（X轴）
             XDDFCategoryAxis bottomAxis = chart.createCategoryAxis(AxisPosition.BOTTOM);
@@ -226,34 +226,34 @@ public class ExcelChartHelper {
             
             // 读取数据值（模仿C#的逻辑）
             List<Double> xValueList = new ArrayList<>();
-            double maxYValue = Double.MIN_VALUE;
-            
+            int maxYValue = Integer.MIN_VALUE;
+
             // 读取数据
             for (int rowIdx = 1; rowIdx <= endRowIndex && rowIdx <= dataSheet.getLastRowNum(); rowIdx++) {
                 Row row = dataSheet.getRow(rowIdx);
                 if (row == null) continue;
-                
+
                 Cell xCell = row.getCell(adjustedStartCol);
                 Cell yCell = row.getCell(adjustedEndCol);
-                
+
                 if (xCell != null && yCell != null) {
                     try {
                         double xValue = xCell.getNumericCellValue();
                         double yValue = yCell.getNumericCellValue();
                         xValueList.add(xValue);
                         if (yValue > maxYValue) {
-                            maxYValue = yValue;
+                            maxYValue = (int)yValue;
                         }
                     } catch (Exception e) {
                         // 如果不是数字，尝试解析字符串
                         try {
                             String xStr = xCell.getStringCellValue();
-                            String yStr = yCell.getStringCellValue();
+                            double yNum = yCell.getNumericCellValue();
                             double xValue = Double.parseDouble(xStr);
-                            double yValue = Double.parseDouble(yStr);
+
                             xValueList.add(xValue);
-                            if (yValue > maxYValue) {
-                                maxYValue = yValue;
+                            if (yNum > maxYValue) {
+                                maxYValue = (int)yNum;
                             }
                         } catch (Exception ex) {
                             // 跳过无法解析的数据
@@ -262,12 +262,12 @@ public class ExcelChartHelper {
                     }
                 }
             }
-            
+
             if (xValueList.isEmpty()) {
                 System.err.println("没有找到有效的数据来创建直方图");
                 return;
             }
-            
+
             maxYValue = (int)(1.2 * maxYValue);
             
             // 创建或获取图表工作表
@@ -338,6 +338,11 @@ public class ExcelChartHelper {
             // 添加数据系列
             XDDFBarChartData.Series series = (XDDFBarChartData.Series) data.addSeries(categories, values);
             series.setTitle("Frequency", null);
+
+            // 设置颜色
+            XDDFSolidFillProperties fill = new XDDFSolidFillProperties(XDDFColor.from(PresetColor.RED));
+            series.setFillProperties(fill);
+
             
             // 如果需要添加平均值线
             if (!Double.isNaN(meanValue) && dataSeriesCount == 1) {
@@ -349,40 +354,37 @@ public class ExcelChartHelper {
                     }
                     xPosition++;
                 }
-                
+
                 // 创建第二个数据系列作为平均值线（使用散点图）
                 XDDFValueAxis bottomValueAxis = chart.createValueAxis(AxisPosition.BOTTOM);
                 bottomValueAxis.setVisible(false);
-                
+
                 XDDFScatterChartData scatterData = (XDDFScatterChartData) chart.createData(
                     ChartTypes.SCATTER, bottomValueAxis, leftAxis
                 );
-                
+
                 // 创建平均值线的数据
                 Double[] xData = new Double[] { xPosition, xPosition };
-                Double[] yData = new Double[] { 0.0, maxYValue };
-                
+                Double[] yData = new Double[] { 0.0, (double)maxYValue };
+
                 XDDFNumericalDataSource<Double> xDataSource = XDDFDataSourcesFactory.fromArray(xData);
                 XDDFNumericalDataSource<Double> yDataSource = XDDFDataSourcesFactory.fromArray(yData);
-                
-                XDDFScatterChartData.Series meanSeries = (XDDFScatterChartData.Series) 
+
+                XDDFScatterChartData.Series meanSeries = (XDDFScatterChartData.Series)
                     scatterData.addSeries(xDataSource, yDataSource);
                 meanSeries.setTitle("Mean", null);
                 meanSeries.setSmooth(true);
                 meanSeries.setMarkerStyle(MarkerStyle.NONE);
-                
+
                 // 绘制散点图
                 chart.plot(scatterData);
             }
-            
-            // 绘制柱状图
-            chart.plot(data);
-            
+
             // 设置X轴标签文字方向为垂直
             try {
                 // 首先创建文本属性
                 bottomAxis.getOrAddTextProperties();
-                
+
                 // 设置X轴标签旋转为-90度（垂直）
                 // -90度 = -5400000 (POI使用1/60000度为单位)
                 chart.getCTChart().getPlotArea().getCatAxArray(0)
@@ -391,6 +393,9 @@ public class ExcelChartHelper {
                 System.err.println("设置X轴标签旋转失败: " + e.getMessage());
                 // 如果失败，继续执行，不影响图表生成
             }
+
+            // 绘制柱状图
+            chart.plot(data);
             
         } catch (Exception e) {
             System.err.println("创建直方图时出错: " + e.getMessage());
