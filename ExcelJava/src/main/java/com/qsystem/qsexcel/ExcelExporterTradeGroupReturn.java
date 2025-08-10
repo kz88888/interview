@@ -47,7 +47,7 @@ public class ExcelExporterTradeGroupReturn {
             }
             double avg = (lower + upper) / 2;
             valueArray[rowIndex][colIndex++] = String.format("%.3f", avg);
-            valueArray[rowIndex][colIndex++] = distributionDictionary.get(keys.get(tmpIndx)).toString();
+            valueArray[rowIndex][colIndex++] = distributionDictionary.get(keys.get(tmpIndx));
         }
 
         _excel.SetRangValue(1, 500, spreadCount + 1, 501, valueArray);
