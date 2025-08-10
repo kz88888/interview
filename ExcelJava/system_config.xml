@@ -71,6 +71,57 @@
                 <method>DeSerializeIntFromZip</method>
             </DataPackage>
 
+            <DataPackage>
+                <type>load</type>
+                <symbol>SPY</symbol>
+                <default>true</default>
+                <tagName>_PVT.D.BAR</tagName>
+                <path>_PVT.D.BAR</path>
+                <class>TagFramework.Utils.DeSerializeUtil</class>
+                <method>DeSerializeBarFromZip</method>
+            </DataPackage>
+
+            <DataPackage>
+                <type>load</type>
+                <symbol>SPY</symbol>
+                <default>true</default>
+                <tagName>*_PVT.D.OC</tagName>
+                <default>true</default>
+                <path>_PVT.D.OC</path>
+                <class>TagFramework.Utils.DeSerializeUtil</class>
+                <method>DeSerializeBlocksDataFromZip</method>
+            </DataPackage>
+
+            <DataPackage>
+                <type>load</type>
+                <symbol>SPY</symbol>
+                <default>true</default>
+                <tagName>*.Mid_PVT.D.OG</tagName>
+                <path>.Mid_PVT.D.OG</path>
+                <class>TagFramework.Utils.DeSerializeUtil</class>
+                <method>DeSerializeBlocksDataFromZip</method>
+            </DataPackage>b
+
+            <DataPackage>
+                <type>load</type>
+                <symbol>SPY</symbol>
+                <default>true</default>
+                <tagName>Maxpain_PVT.D</tagName>
+                <path>Maxpain_PVT.D</path>
+                <class>TagFramework.Utils.DeSerializeUtil</class>
+                <method>DeSerializeIntFromZip</method>
+            </DataPackage>
+
+            <DataPackage>
+                <type>load</type>
+                <symbol>SPY</symbol>
+                <default>true</default>
+                <tagName>VIX_PVT.D</tagName>
+                <path>VIX_PVT.D</path>
+                <class>TagFramework.Utils.DeSerializeUtil</class>
+                <method>DeSerializeIntFromZip</method>
+            </DataPackage>
+
 
 <!--            <DataPackage>-->
 <!--                <type>load</type>-->
